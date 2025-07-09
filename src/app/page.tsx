@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-// Local quotes array
 const quotes = [
   {
     topic: "inspiration",
@@ -63,7 +62,6 @@ const quotes = [
   },
 ];
 
-// Get unique topics for display
 const availableTopics = [...new Set(quotes.map((q) => q.topic))];
 
 export default function Home() {
@@ -94,7 +92,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
             Quote Generator
@@ -104,7 +101,6 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Search Form */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
           <form
             onSubmit={handleSubmit}
@@ -126,7 +122,6 @@ export default function Home() {
             </button>
           </form>
 
-          {/* Available Topics */}
           <div className="mb-4">
             <p className="text-gray-600 mb-3 font-medium">Popular topics:</p>
             <div className="flex flex-wrap gap-2">
@@ -143,7 +138,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Results */}
         <div className="space-y-4">
           {searched && results.length === 0 ? (
             <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
