@@ -149,7 +149,7 @@ export default function Home() {
             <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
               <div className="text-6xl mb-4">🤔</div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                No quotes found for "{topic}"
+                No quotes found for &quot;{topic}&quot;
               </h3>
               <p className="text-gray-600 mb-4">
                 Try one of the popular topics above or search for something
@@ -169,7 +169,7 @@ export default function Home() {
           ) : results.length > 0 ? (
             <>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Quotes about "{topic}"
+                Quotes about &quot;{topic}&quot;
               </h2>
               <div className="grid gap-4">
                 {results.map((q, i) => (
@@ -178,7 +178,7 @@ export default function Home() {
                     className="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-blue-500 hover:shadow-xl transition-shadow duration-200"
                   >
                     <p className="text-xl text-gray-800 mb-3 italic">
-                      "{q.text}"
+                      &quot;{q.text}&quot;
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500 capitalize">
