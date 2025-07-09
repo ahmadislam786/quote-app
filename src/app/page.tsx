@@ -1,103 +1,209 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+
+// Local quotes array
+const quotes = [
+  {
+    topic: "inspiration",
+    text: "The best way to get started is to quit talking and begin doing.",
+  },
+  {
+    topic: "inspiration",
+    text: "Don't let yesterday take up too much of today.",
+  },
+  {
+    topic: "inspiration",
+    text: "It's not whether you get knocked down, it's whether you get up.",
+  },
+  {
+    topic: "success",
+    text: "Success is not in what you have, but who you are.",
+  },
+  {
+    topic: "success",
+    text: "Success is walking from failure to failure with no loss of enthusiasm.",
+  },
+  {
+    topic: "success",
+    text: "The road to success and the road to failure are almost exactly the same.",
+  },
+  {
+    topic: "life",
+    text: "Life is what happens when you're busy making other plans.",
+  },
+  { topic: "life", text: "Get busy living or get busy dying." },
+  {
+    topic: "life",
+    text: "You only live once, but if you do it right, once is enough.",
+  },
+  {
+    topic: "motivation",
+    text: "The only way to do great work is to love what you do.",
+  },
+  {
+    topic: "motivation",
+    text: "Believe you can and you're halfway there.",
+  },
+  {
+    topic: "motivation",
+    text: "Don't watch the clock; do what it does. Keep going.",
+  },
+  {
+    topic: "wisdom",
+    text: "The only true wisdom is in knowing you know nothing.",
+  },
+  {
+    topic: "wisdom",
+    text: "Knowledge speaks, but wisdom listens.",
+  },
+  {
+    topic: "wisdom",
+    text: "The more you learn, the more you realize how much you don't know.",
+  },
+];
+
+// Get unique topics for display
+const availableTopics = [...new Set(quotes.map((q) => q.topic))];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [topic, setTopic] = useState("");
+  const [results, setResults] = useState<{ topic: string; text: string }[]>([]);
+  const [searched, setSearched] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!topic.trim()) return;
+
+    const filtered = quotes
+      .filter((q) => q.topic.toLowerCase() === topic.toLowerCase())
+      .slice(0, 3);
+    setResults(filtered);
+    setSearched(true);
+  }
+
+  function handleTopicClick(selectedTopic: string) {
+    setTopic(selectedTopic);
+    const filtered = quotes
+      .filter((q) => q.topic.toLowerCase() === selectedTopic.toLowerCase())
+      .slice(0, 3);
+    setResults(filtered);
+    setSearched(true);
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+            Quote Generator
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Discover inspiring quotes for any topic
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Search Form */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col sm:flex-row gap-4 mb-6"
+          >
+            <input
+              type="text"
+              placeholder="Enter a topic (e.g. inspiration, success, life)"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              className="flex-1 px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-lg"
+              required
+            />
+            <button
+              type="submit"
+              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-semibold text-lg"
+            >
+              Get Quotes
+            </button>
+          </form>
+
+          {/* Available Topics */}
+          <div className="mb-4">
+            <p className="text-gray-600 mb-3 font-medium">Popular topics:</p>
+            <div className="flex flex-wrap gap-2">
+              {availableTopics.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => handleTopicClick(t)}
+                  className="px-4 py-2 bg-gray-100 hover:bg-blue-100 text-gray-700 hover:text-blue-700 rounded-full transition-all duration-200 font-medium capitalize"
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Results */}
+        <div className="space-y-4">
+          {searched && results.length === 0 ? (
+            <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
+              <div className="text-6xl mb-4">🤔</div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                No quotes found for "{topic}"
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Try one of the popular topics above or search for something
+                else.
+              </p>
+              <button
+                onClick={() => {
+                  setTopic("");
+                  setResults([]);
+                  setSearched(false);
+                }}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              >
+                Clear Search
+              </button>
+            </div>
+          ) : results.length > 0 ? (
+            <>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                Quotes about "{topic}"
+              </h2>
+              <div className="grid gap-4">
+                {results.map((q, i) => (
+                  <div
+                    key={i}
+                    className="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-blue-500 hover:shadow-xl transition-shadow duration-200"
+                  >
+                    <p className="text-xl text-gray-800 mb-3 italic">
+                      "{q.text}"
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-500 capitalize">
+                        Topic: {q.topic}
+                      </span>
+                      <span className="text-2xl">💬</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
+              <div className="text-6xl mb-4">✨</div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                Ready to discover quotes?
+              </h3>
+              <p className="text-gray-600">
+                Enter a topic above or click on one of the popular topics to get
+                started.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
